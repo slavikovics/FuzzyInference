@@ -8,16 +8,16 @@ class FuzzySet:
         return self.__repr__()
 
     def __repr__(self):
-        return f'{set(zip(self._elements, self._degree_of_membership))}'
+        return f'{self._name} = {set(zip(self._elements, self._degree_of_membership))}'
 
     def __eq__(self, other):
-        ...
+        return self._name == other.name and self.items == other.items
 
     def __contains__(self, item):
-        ...
+        return item in self._elements
 
     def __len__(self):
-        ...
+        return len(self._elements)
 
     @property
     def name(self):
@@ -26,3 +26,7 @@ class FuzzySet:
     @property
     def items(self):
         return set(zip(self._elements, self._degree_of_membership))
+
+    @property
+    def elements(self):
+        return self._elements
