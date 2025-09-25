@@ -1,0 +1,1 @@
+from fuzzy_implication.fuzzy_implication import FuzzyImplication
