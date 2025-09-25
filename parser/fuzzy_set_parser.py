@@ -94,9 +94,21 @@ class FuzzySetParserFactory:
         return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
 
 
-def fuzzy_set_parser(input_string):
-    tokens = fuzzy_set_lex(input_string)
-    parser = FuzzySetParserFactory(tokens)
-    ast = parser.parse()
+class FuzzySetParser:
+    def __init__(self, list_of_fuzzy_sets: list[FuzzySet]):
+        self._fuzzy_sets = list_of_fuzzy_sets
+        self._names = [i.name for i in list_of_fuzzy_sets]
 
-    return FuzzySet(*ast)
+    def parse(self, input_string):
+        tokens = fuzzy_set_lex(input_string)
+        parser = FuzzySetParserFactory(tokens)
+        ast = parser.parse()
+
+        if ast[0] in self._names:
+            raise SyntaxError(f'Fuzzy set "{ast[0]}" is multiplicity defined')
+
+        fuzzy_set = FuzzySet(*ast)
+
+        self._fuzzy_sets.append(fuzzy_set)
+
+        return fuzzy_set

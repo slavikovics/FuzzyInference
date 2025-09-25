@@ -1,6 +1,7 @@
+from fuzzy_implication import FuzzyImplication
 from fuzzy_set import FuzzySet
 
-from parser.fuzzy_set_lexer import fuzzy_set_lex
+from parser.implication_lexer import implication_lex
 
 # TODO rename
 class ImplicationParserTORENAME:
@@ -49,56 +50,43 @@ class ImplicationParserTORENAME:
         return None
 
     def expression(self):
-        elements_of_set = []
-        degree_of_membership_of_set = []
-        fuzzy_set_name = self.match('NAME')
-        if not fuzzy_set_name:
-            raise SyntaxError('Expected NAME token')
+        first = self.match('NAME')
+        if first is None:
+            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
 
-        if not self.match('EQUATE'):
-            raise SyntaxError('Expected EQUATE token')
+        if not self.match('FIMP'):
+            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
 
-        if not self.match('SFSET'):
-            raise SyntaxError('Expected SFSET token')
+        second = self.match('NAME')
+        if second is None:
+            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
 
-        while self.match('STUPLE'):
-
-            element = self.match('VAR')
-            if not element:
-                raise SyntaxError('Expected VAR token')
-            if element in elements_of_set:
-                raise SyntaxError(f'Element "{element}" is already defined')
-
-            if not self.match('COMMA'):
-                raise SyntaxError('Expected COMMA token')
-
-            degree = self.match('NUM')
-            if not element:
-                raise SyntaxError('Expected NUM token')
-            degree = int(degree)
-            if not 0 <= degree <= 1:
-                raise SyntaxError(f'Degree of element "{element}" must be between 0 and 1')
-
-            elements_of_set.append(element)
-            degree_of_membership_of_set.append(degree)
-
-            if not self.match('COMMA'):
-                self.pos -= 1
-                break
-
-        if not self.match('EFSET'):
-            raise SyntaxError('Expected SFSET token')
-
-        return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
+        return first, second
 
 
 class ImplicationParser:
-    def __init__(self, list_of_fuzzy_sets):
-        ...
-    def implication_parser(self, input_string):
-        tokens = fuzzy_set_lex(input_string)
+    def __init__(self, list_of_implications: list[FuzzyImplication], list_of_fuzzy_sets: list[FuzzySet]):
+        self._fuzzy_sets = list_of_fuzzy_sets
+        self._implications = list_of_implications
+
+    def parse(self, input_string):
+        tokens = implication_lex(input_string)
         parser = ImplicationParserTORENAME(tokens)
         ast = parser.parse()
 
-        # TODO fix
-        return FuzzySet(ast)
+        names = [i.name for i in self._fuzzy_sets]
+
+        if ast[0] not in names:
+            raise SyntaxError(f'Unknown name "{ast[0]}"')
+
+        if ast[1] not in names:
+            raise SyntaxError(f'Unknown name "{ast[1]}"')
+
+        implication = FuzzyImplication(*ast)
+
+        if implication in self._implications:
+            raise SyntaxError(f'Implication "{implication}" is multiplicity defined')
+
+        self._implications.append(implication)
+
+        return implication

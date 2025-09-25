@@ -9,6 +9,9 @@ class FuzzyImplication:
     def __repr__(self):
         return f'{self._first} ~> {self._second}'
 
+    def __eq__(self, other):
+        return self._first == other.first and self._second == other.second
+
     @property
     def first(self):
         return self._first
