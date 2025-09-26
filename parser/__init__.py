@@ -1,2 +1,2 @@
-from parser.fuzzy_set_parser import FuzzySetParser
-from parser.implication_parser import ImplicationParser
+from parser.fuzzy_set_parser import parse_fuzzy_set
+from parser.implication_parser import parse_fuzzy_implication

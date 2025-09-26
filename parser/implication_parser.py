@@ -62,7 +62,7 @@ class ImplicationParser:
         return first, second
 
 
-def parse_fuzzy_set(input_string):
+def parse_fuzzy_implication(input_string):
     tokens = implication_lex(input_string)
     parser = ImplicationParser(tokens)
     ast = parser.parse()
