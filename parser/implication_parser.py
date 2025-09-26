@@ -1,10 +1,9 @@
 from fuzzy_implication import FuzzyImplication
-from fuzzy_set import FuzzySet
 
 from parser.implication_lexer import implication_lex
 
-# TODO rename
-class ImplicationParserTORENAME:
+
+class ImplicationParser:
     def __init__(self, tokens: list[tuple[str, str]]) -> None:
         """
         Initializes the Parser instance.
@@ -14,7 +13,6 @@ class ImplicationParserTORENAME:
         """
         self.tokens = tokens
         self.pos = 0
-
 
     def parse(self):
         """
@@ -27,7 +25,7 @@ class ImplicationParserTORENAME:
         Raises:
             SyntaxError: If the formula is syntactically incorrect, or if unconsumed tokens remain.
         """
-        result = self.expression()
+        result = self.check_syntax()
         if self.pos < len(self.tokens):
             raise SyntaxError(f'Unexpected token at the end of the formula: {self.tokens[self.pos][0]}')
         return result
@@ -49,7 +47,7 @@ class ImplicationParserTORENAME:
             return self.tokens[self.pos - 1][0]
         return None
 
-    def expression(self):
+    def check_syntax(self):
         first = self.match('NAME')
         if first is None:
             raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
@@ -64,29 +62,9 @@ class ImplicationParserTORENAME:
         return first, second
 
 
-class ImplicationParser:
-    def __init__(self, list_of_implications: list[FuzzyImplication], list_of_fuzzy_sets: list[FuzzySet]):
-        self._fuzzy_sets = list_of_fuzzy_sets
-        self._implications = list_of_implications
+def parse_fuzzy_set(input_string):
+    tokens = implication_lex(input_string)
+    parser = ImplicationParser(tokens)
+    ast = parser.parse()
 
-    def parse(self, input_string):
-        tokens = implication_lex(input_string)
-        parser = ImplicationParserTORENAME(tokens)
-        ast = parser.parse()
-
-        names = [i.name for i in self._fuzzy_sets]
-
-        if ast[0] not in names:
-            raise SyntaxError(f'Unknown name "{ast[0]}"')
-
-        if ast[1] not in names:
-            raise SyntaxError(f'Unknown name "{ast[1]}"')
-
-        implication = FuzzyImplication(*ast)
-
-        if implication in self._implications:
-            raise SyntaxError(f'Implication "{implication}" is multiplicity defined')
-
-        self._implications.append(implication)
-
-        return implication
+    return FuzzyImplication(*ast)
