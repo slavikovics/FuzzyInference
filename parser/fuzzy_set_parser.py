@@ -2,7 +2,8 @@ from fuzzy_set import FuzzySet
 
 from parser.fuzzy_set_lexer import fuzzy_set_lex
 
-class FuzzySetParserFactory:
+
+class FuzzySetParser:
     def __init__(self, tokens: list[tuple[str, str]]) -> None:
         """
         Initializes the Parser instance.
@@ -12,7 +13,6 @@ class FuzzySetParserFactory:
         """
         self.tokens = tokens
         self.pos = 0
-
 
     def parse(self):
         """
@@ -25,7 +25,7 @@ class FuzzySetParserFactory:
         Raises:
             SyntaxError: If the formula is syntactically incorrect, or if unconsumed tokens remain.
         """
-        result = self.expression()
+        result = self.check_syntax()
         if self.pos < len(self.tokens):
             raise SyntaxError(f'Unexpected token at the end of the formula: {self.tokens[self.pos][0]}')
         return result
@@ -47,7 +47,7 @@ class FuzzySetParserFactory:
             return self.tokens[self.pos - 1][0]
         return None
 
-    def expression(self):
+    def check_syntax(self):
         elements_of_set = []
         degree_of_membership_of_set = []
 
@@ -94,21 +94,9 @@ class FuzzySetParserFactory:
         return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
 
 
-class FuzzySetParser:
-    def __init__(self, list_of_fuzzy_sets: list[FuzzySet]):
-        self._fuzzy_sets = list_of_fuzzy_sets
-        self._names = [i.name for i in list_of_fuzzy_sets]
+def parse_fuzzy_set(input_string):
+    tokens = fuzzy_set_lex(input_string)
+    parser = FuzzySetParser(tokens)
+    ast = parser.parse()
 
-    def parse(self, input_string):
-        tokens = fuzzy_set_lex(input_string)
-        parser = FuzzySetParserFactory(tokens)
-        ast = parser.parse()
-
-        if ast[0] in self._names:
-            raise SyntaxError(f'Fuzzy set "{ast[0]}" is multiplicity defined')
-
-        fuzzy_set = FuzzySet(*ast)
-
-        self._fuzzy_sets.append(fuzzy_set)
-
-        return fuzzy_set
+    return FuzzySet(*ast)
