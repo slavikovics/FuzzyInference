@@ -1,0 +1,12 @@
+{
+  "{": "SFSET",
+  "}": "EFSET",
+  "<": "STUPLE",
+  ">": "ETUPLE",
+  ",": "COMMA",
+  "=": "EQUATE",
+  "[NAME]": "NAME",
+  "[NUM]": "NUM",
+  "[VAR]": "VAR",
+  "[WS]": null
+}
