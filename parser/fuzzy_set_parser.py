@@ -1,5 +1,4 @@
 from fuzzy_set import FuzzySet
-
 from parser.fuzzy_set_lexer import fuzzy_set_lex
 
 

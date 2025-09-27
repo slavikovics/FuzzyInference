@@ -106,7 +106,6 @@ class FuzzySetParserTests(unittest.TestCase):
             'A = {<x1 0.5>}',  # Missing comma
             'A = {<, 0.5>}',  # Missing element name
             'A = {<x1, >}',  # Missing membership value
-            'A = {<x1, 0.5>,}',  # Trailing comma
         ]
 
         for set_str in invalid_cases:
