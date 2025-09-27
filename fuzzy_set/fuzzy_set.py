@@ -19,6 +19,13 @@ class FuzzySet:
     def __len__(self):
         return len(self._elements)
 
+    def __getitem__(self, item):
+        for (element, degree) in zip(self._elements, self._degree_of_membership):
+            if element == item:
+                return degree
+
+        raise KeyError(f'Element with name "{item}" was not found.')
+
     @property
     def name(self):
         return self._name
