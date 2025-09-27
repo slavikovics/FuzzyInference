@@ -1,5 +1,6 @@
 from typing import List, Tuple, Optional
 
+
 def lex(characters: str, token_patterns: List[Tuple[str, Optional[str]]]) -> List[Tuple[str, str]]:
     """
     Lexical analyzer that splits a string into tokens using specified patterns.
