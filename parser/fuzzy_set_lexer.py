@@ -12,9 +12,6 @@ def load_tokens():
     return list(data.items())
 
 
-set_token_patterns = load_tokens()
-
-
 def fuzzy_set_lex(characters: str) -> List[Tuple[str, str]]:
     """
     Lexical analyzer that tokenizes a string based on predefined token patterns.
@@ -25,4 +22,5 @@ def fuzzy_set_lex(characters: str) -> List[Tuple[str, str]]:
     Returns:
         list of tuples: A list of tokens where each token is a tuple containing the matched text and its corresponding tag.
     """
+    set_token_patterns = load_tokens()
     return lexer.lex(characters, set_token_patterns)

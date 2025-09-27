@@ -1,5 +1,4 @@
 from fuzzy_implication import FuzzyImplication
-
 from parser.implication_lexer import implication_lex
 
 
@@ -50,14 +49,14 @@ class ImplicationParser:
     def check_syntax(self):
         first = self.match('NAME')
         if first is None:
-            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
+            raise SyntaxError(f'Unexpected token')
 
         if not self.match('FIMP'):
-            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
+            raise SyntaxError(f'Unexpected token')
 
         second = self.match('NAME')
         if second is None:
-            raise SyntaxError(f'Unexpected token "{self.tokens[self.pos][1]}" at position {self.pos}')
+            raise SyntaxError(f'Unexpected token')
 
         return first, second
 

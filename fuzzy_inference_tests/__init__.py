@@ -1,0 +1,2 @@
+from test_fuzzy_set_parser import FuzzySetParserTests
+from test_implication_parser import FuzzyImplicationParserTests
