@@ -1,2 +1,3 @@
-from test_fuzzy_set_parser import FuzzySetParserTests
-from test_implication_parser import FuzzyImplicationParserTests
+from fuzzy_inference_tests.test_fuzzy_set_parser import FuzzySetParserTests
+from fuzzy_inference_tests.test_implication_parser import FuzzyImplicationParserTests
+from fuzzy_inference_tests.test_inference_input import InferenceInputTests
