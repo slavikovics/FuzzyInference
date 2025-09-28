@@ -7,4 +7,10 @@ class InferenceStep:
         self.left_set = left_set
         self.implication_scheme = implication_scheme
         self.result = result
-        self.equal_to = None
+        self.equal_to = equal_to
+
+    def __str__(self):
+        if self.equal_to is None:
+            return '{ ' + self.left_set.name + ', ' + str(self.implication_scheme) + ' }' + f' |~ {self.result}'
+        else:
+            return '{ ' + self.left_set.name + ', ' + str(self.implication_scheme) + ' }' + f' |~ {self.result} = {self.equal_to.name}'

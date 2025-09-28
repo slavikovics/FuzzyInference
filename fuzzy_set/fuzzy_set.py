@@ -10,7 +10,16 @@ class FuzzySet:
         self._data = dict(zip(elements, degree_of_membership))
 
     def __str__(self):
-        return self.__repr__()
+        result = ''
+        for key, value in self._data.items():
+            cortege = f'<{key}, {value}>'
+            if result != '':
+                result = result + ', ' + cortege
+
+            else:
+                result = result + cortege
+
+        return self.name + ' = {' + result + '}'
 
     def __repr__(self):
         return f'{self._name} = {self._data}'
@@ -18,9 +27,6 @@ class FuzzySet:
     def __eq__(self, other):
         if not isinstance(other, FuzzySet):
             return NotImplemented
-
-        if self._name != other.name:
-            return False
 
         if self._data.keys() != other._data.keys():
             return False
