@@ -85,13 +85,16 @@ class FuzzySetParser:
             elements_of_set.append(element)
             degree_of_membership_of_set.append(degree)
 
+            if self.match('EFSET'):
+                return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
+
+
             if not self.match('COMMA'):
                 break
 
-        if not self.match('EFSET'):
-            raise SyntaxError('Expected EFSET token')
+        raise SyntaxError('Expected EFSET token')
 
-        return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
+
 
 
 def parse_fuzzy_set(input_string):
