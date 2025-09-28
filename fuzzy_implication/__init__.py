@@ -1,3 +1,3 @@
-from fuzzy_implication.fuzzy_implication import FuzzyImplication
+from fuzzy_implication.implication_scheme import ImplicationScheme
 from fuzzy_implication.godel_implication_solver import GodelImplicationSolver
 from fuzzy_implication.weber_implication_solver import WeberImplicationSolver

@@ -1,7 +1,9 @@
-class FuzzyImplication:
+class ImplicationScheme:
     def __init__(self, first, second):
         self._first = first
         self._second = second
+        self.applied_sets = []
+        self.solution = None
 
     def __str__(self):
         return self.__repr__()
