@@ -5,3 +5,4 @@ from fuzzy_inference_tests.test_godel_implication import TestGodelImplicationSol
 from fuzzy_inference_tests.test_weber_implication import TestWeberImplicationSolver
 from fuzzy_inference_tests.test_min_tnorm import TestMinTNorm
 from fuzzy_inference_tests.test_drastic_product import TestDrasticProduct
+from fuzzy_inference_tests.test_fuzzy_set import TestFuzzySet

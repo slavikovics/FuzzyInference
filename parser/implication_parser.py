@@ -1,4 +1,4 @@
-from fuzzy_implication import FuzzyImplication
+from fuzzy_implication import ImplicationScheme
 from parser.implication_lexer import implication_lex
 
 
@@ -66,4 +66,4 @@ def parse_fuzzy_implication(input_string):
     parser = ImplicationParser(tokens)
     ast = parser.parse()
 
-    return FuzzyImplication(*ast)
+    return ImplicationScheme(*ast)

@@ -4,7 +4,7 @@ from fuzzy_set import FuzzySet
 class FuzzyConjunction:
 
     @staticmethod
-    def min(left_set :FuzzySet, implication_matrix :list[list[float]]):
+    def min(left_set :FuzzySet, implication_matrix :list[list[float]]) -> list[list[float]]:
         if len(left_set.elements) != len(implication_matrix):
             raise Exception(f'Set and matrix are incompatible.')
 
@@ -20,7 +20,7 @@ class FuzzyConjunction:
         return result
 
     @staticmethod
-    def drastic_product(left_set :FuzzySet, implication_matrix :list[list[float]]):
+    def drastic_product(left_set :FuzzySet, implication_matrix :list[list[float]]) -> list[list[float]]:
         if len(left_set.elements) != len(implication_matrix):
             raise Exception(f'Set and matrix are incompatible.')
 

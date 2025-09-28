@@ -1,30 +1,54 @@
+import math
+
+
 class FuzzySet:
     def __init__(self, name, elements, degree_of_membership):
+        if len(elements) != len(degree_of_membership):
+            raise ValueError("Elements and membership degrees must be the same length.")
+
         self._name = name
-        self._elements = elements
-        self._degree_of_membership = degree_of_membership
+        self._data = dict(zip(elements, degree_of_membership))
 
     def __str__(self):
         return self.__repr__()
 
     def __repr__(self):
-        return f'{self._name} = {set(zip(self._elements, self._degree_of_membership))}'
+        return f'{self._name} = {self._data}'
 
     def __eq__(self, other):
-        return self._name == other.name and self.items == other.items
+        if not isinstance(other, FuzzySet):
+            return NotImplemented
+
+        if self._name != other.name:
+            return False
+
+        if self._data.keys() != other._data.keys():
+            return False
+
+        for key in self._data:
+            if not math.isclose(
+                self._data[key],
+                other._data[key],
+                rel_tol=1e-9,
+                abs_tol=1e-12
+            ):
+                return False
+
+        return True
 
     def __contains__(self, item):
-        return item in self._elements
+        return item in self._data
 
     def __len__(self):
-        return len(self._elements)
+        return len(self._data)
 
     def __getitem__(self, item):
-        for (element, degree) in zip(self._elements, self._degree_of_membership):
-            if element == item:
-                return degree
+        if item not in self._data:
+            raise KeyError(f'Element "{item}" not found.')
+        return self._data[item]
 
-        raise KeyError(f'Element with name "{item}" was not found.')
+    def is_like(self, other):
+        return self._data.keys() == other._data.keys()
 
     @property
     def name(self):
@@ -32,12 +56,12 @@ class FuzzySet:
 
     @property
     def items(self):
-        return set(zip(self._elements, self._degree_of_membership))
+        return set(self._data.items())
 
     @property
     def degrees_of_membership(self):
-        return self._degree_of_membership
+        return list(self._data.values())
 
     @property
     def elements(self):
-        return self._elements
+        return list(self._data.keys())
