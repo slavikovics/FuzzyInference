@@ -1,0 +1,1 @@
+from fuzzy_conjunction.fuzzy_conjunction import FuzzyConjunction

@@ -35,5 +35,9 @@ class FuzzySet:
         return set(zip(self._elements, self._degree_of_membership))
 
     @property
+    def degrees_of_membership(self):
+        return self._degree_of_membership
+
+    @property
     def elements(self):
         return self._elements
