@@ -134,6 +134,16 @@ class FuzzySetParserTests(unittest.TestCase):
         with self.assertRaises(SyntaxError):
             fuzzy_set = parse_fuzzy_set(set_str)
 
+    def test_extra_comma(self):
+        set_str = 'B = {<a, 0.2>, <b, 0.8>,}'
+        with self.assertRaises(SyntaxError):
+            fuzzy_set = parse_fuzzy_set(set_str)
+
+    def test_extra_characters(self):
+        set_str = 'B = {<a, 0.2>, <b, 0.8>} A'
+        with self.assertRaises(SyntaxError):
+            fuzzy_set = parse_fuzzy_set(set_str)
+
     def test_membership_value_precision(self):
         set_str = 'C = {<x1, 0.333333>, <x2, 0.666667>, <x3, 0.999999>}'
         fuzzy_set = parse_fuzzy_set(set_str)

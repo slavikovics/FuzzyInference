@@ -87,13 +87,17 @@ class FuzzySetParser:
             if self.match('EFSET'):
                 return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
 
-
             if not self.match('COMMA'):
                 break
 
+            if not self.match('STUPLE'):
+                raise SyntaxError('Expected STUPLE token')
+            self.pos -= 1
+
+        if self.match('EFSET'):
+            return fuzzy_set_name, elements_of_set, degree_of_membership_of_set
+
         raise SyntaxError('Expected EFSET token')
-
-
 
 
 def parse_fuzzy_set(input_string):
