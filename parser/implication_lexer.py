@@ -1,11 +1,15 @@
 from typing import List, Tuple
 import parser.lexer as lexer
+import os
+import json
 
-implication_token_patterns = [
-    ('~>',     'FIMP'),
-    ('[NAME]', 'NAME'),
-    ('[WS]',    None),
-]
+
+def load_patterns():
+    file_path = os.path.join(os.path.dirname(__file__), 'implication_token_patterns.json')
+    with open(file_path, 'r', encoding='utf-8') as patterns:
+        data = json.load(patterns)
+
+    return list(data.items())
 
 
 def implication_lex(characters: str) -> List[Tuple[str, str]]:
@@ -18,4 +22,5 @@ def implication_lex(characters: str) -> List[Tuple[str, str]]:
     Returns:
         list of tuples: A list of tokens where each token is a tuple containing the matched text and its corresponding tag.
     """
+    implication_token_patterns = load_patterns()
     return lexer.lex(characters, implication_token_patterns)

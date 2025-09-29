@@ -1,5 +1,4 @@
 from fuzzy_set import FuzzySet
-
 from parser.fuzzy_set_lexer import fuzzy_set_lex
 
 
@@ -77,7 +76,7 @@ class FuzzySetParser:
                 raise SyntaxError('Expected NUM token')
             degree = float(degree)
             if not 0 <= degree <= 1:
-                raise SyntaxError(f'Degree of element "{element}" must be between 0 and 1')
+                raise ValueError(f'Degree of element "{element}" must be between 0 and 1')
 
             if not self.match('ETUPLE'):
                 raise SyntaxError('Expected ETUPLE token')
