@@ -1,3 +1,17 @@
+"""
+Выполнили студенты группы 321701:
+- Мотолянец Кирилл Андреевич
+- Пушко Максим Александрович
+- Самович Вячеслав Максимович
+Вариант 4
+
+Главное меню программы
+27.09.2025
+
+Источники:
+- Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
+"""
+
 from fuzzy_implication import ImplicationScheme
 from parser import parse_fuzzy_set, parse_fuzzy_implication
 from inference_engine import InferenceInput, InferenceStep, InferencePipeline
@@ -26,7 +40,6 @@ def get_file(inference_input: InferenceInput):
     with open(file_name, 'r') as f:
         input_fuzzy_sets(inference_input, f)
         input_fuzzy_implications(inference_input, f)
-
 
 
 def input_fuzzy_sets(inference_input: InferenceInput, f):
