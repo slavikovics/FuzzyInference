@@ -15,7 +15,7 @@ class ImplicationScheme:
         return self._first == other.first and self._second == other.second
 
     def str_with_solution(self):
-        if self.solution is None:
+        if self.solution is None or len(self.solution) == 0:
             return str(self)
 
         result = str(self) + '\n'
