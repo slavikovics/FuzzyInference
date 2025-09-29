@@ -1,7 +1,7 @@
 from typing import Optional
 from inference_engine import InferenceInput
 from fuzzy_set import FuzzySet
-from fuzzy_implication import ImplicationScheme, GodelImplicationSolver
+from fuzzy_implication import ImplicationScheme, GodelImplicationSolver, WeberImplicationSolver
 from fuzzy_conjunction import FuzzyConjunction
 from inference_engine import InferenceStep
 
@@ -10,8 +10,8 @@ class InferencePipeline:
 
     def __init__(self, inference_input :InferenceInput):
         self.inference_input = inference_input
-        self.tnorm = FuzzyConjunction.min
-        self.implication_solver = GodelImplicationSolver()
+        self.tnorm = FuzzyConjunction.drastic_product
+        self.implication_solver = WeberImplicationSolver()
         self.inference_steps = []
 
     def find_set_with_name(self, name :str) -> Optional[FuzzySet]:
@@ -88,8 +88,7 @@ class InferencePipeline:
                         scheme.applied_sets.append(fuzzy_set)
 
                         if result is None:
-                            self.inference_steps.append(InferenceStep(fuzzy_set, scheme, None, None))
-                            continue
+                            result = FuzzySet(f'_{step_index}', [], [])
 
                         duplicate = self.check_for_duplicates(result)
                         if duplicate is None:

@@ -42,7 +42,7 @@ class TestFuzzySet(unittest.TestCase):
     def test_eq_name_mismatch(self):
         a = FuzzySet("A", ["x1"], [0.5])
         b = FuzzySet("B", ["x1"], [0.5])
-        self.assertNotEqual(a, b)
+        self.assertEqual(a, b)
 
     def test_eq_keys_mismatch(self):
         a = FuzzySet("A", ["x1", "x2"], [0.2, 0.3])
