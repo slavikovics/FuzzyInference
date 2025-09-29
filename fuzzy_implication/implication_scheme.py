@@ -14,6 +14,22 @@ class ImplicationScheme:
     def __eq__(self, other):
         return self._first == other.first and self._second == other.second
 
+    def str_with_solution(self):
+        if self.solution is None:
+            return str(self)
+
+        result = str(self) + '\n'
+
+        all_values = [el for row in self.solution for el in row]
+        col_width = max(len(f"{v}") for v in all_values) + 1
+
+        for row in self.solution:
+            for el in row:
+                result += f"{el:{col_width}}"
+            result += '\n'
+
+        return result
+
     @property
     def first(self):
         return self._first

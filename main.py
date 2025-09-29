@@ -1,3 +1,4 @@
+from fuzzy_implication import ImplicationScheme
 from parser import parse_fuzzy_set, parse_fuzzy_implication
 from inference_engine import InferenceInput, InferenceStep, InferencePipeline
 
@@ -36,6 +37,12 @@ def input_fuzzy_implications(inference_input :InferenceInput):
         print('')
 
 
+def print_implications(schemes :list[ImplicationScheme]):
+    for scheme in schemes:
+        print(scheme.str_with_solution())
+        print('')
+
+
 def print_inference(inference_steps :list[InferenceStep]):
     for i, step in enumerate(inference_steps):
         print(f'{i + 1}. {str(step)}')
@@ -47,6 +54,7 @@ def main():
     input_fuzzy_implications(inference_input)
     pipeline = InferencePipeline(inference_input)
     pipeline.inference()
+    print_implications(inference_input.implications)
     print_inference(pipeline.inference_steps)
 
 
