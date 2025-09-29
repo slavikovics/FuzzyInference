@@ -1,18 +1,15 @@
 from typing import List, Tuple
 import parser.lexer as lexer
+import os
+import json
 
-set_token_patterns = [
-    ('{',      'SFSET'),
-    ('}',      'EFSET'),
-    ('<',      'STUPLE'),
-    ('>',      'ETUPLE'),
-    (',',      'COMMA'),
-    ('=',      'EQUATE'),
-    ('[NAME]', 'NAME'),
-    ('[NUM]',  'NUM'),
-    ('[VAR]',  'VAR'),
-    ('[WS]',    None),
-]
+
+def load_tokens():
+    file_path = os.path.join(os.path.dirname(__file__), 'set_token_patterns.json')
+    with open(file_path, 'r', encoding='utf-8') as patterns:
+        data = json.load(patterns)
+
+    return list(data.items())
 
 
 def fuzzy_set_lex(characters: str) -> List[Tuple[str, str]]:
@@ -25,4 +22,5 @@ def fuzzy_set_lex(characters: str) -> List[Tuple[str, str]]:
     Returns:
         list of tuples: A list of tokens where each token is a tuple containing the matched text and its corresponding tag.
     """
+    set_token_patterns = load_tokens()
     return lexer.lex(characters, set_token_patterns)
