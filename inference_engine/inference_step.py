@@ -30,3 +30,18 @@ class InferenceStep:
             return '{ ' + self.left_set.name + ', ' + str(self.implication_scheme) + ' }' + f' |~ {self.result}'
         else:
             return '{ ' + self.left_set.name + ', ' + str(self.implication_scheme) + ' }' + f' |~ {self.result} = {self.equal_to.name}'
+
+    def __eq__(self, other):
+        if self.implication_scheme.first != other.implication_scheme.first:
+            return False
+
+        if self.implication_scheme.second != other.implication_scheme.second:
+            return False
+
+        if self.left_set != other.left_set:
+            return False
+
+        if self.result != other.result:
+            return False
+
+        return True
