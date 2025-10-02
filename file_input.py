@@ -29,15 +29,15 @@ def get_file(inference_input: InferenceInput):
 
     if not file_name:
         print('Ошибка: Путь к файлу не может быть пустым')
-        return
+        exit(1)
 
     if not os.path.exists(file_name):
         print(f'Ошибка: Файл "{file_name}" не существует')
-        return
+        exit(1)
 
     if not os.path.isfile(file_name):
         print(f'Ошибка: "{file_name}" не является файлом')
-        return
+        exit(1)
 
     with open(file_name, 'r') as f:
         input_fuzzy_sets(inference_input, f)
@@ -56,6 +56,7 @@ def input_fuzzy_sets(inference_input: InferenceInput, f):
             inference_input.add_set(fuzzy_set)
         except Exception as e:
             print(f'Произошла ошибка: {e.args}.')
+            exit(1)
 
 
 def input_fuzzy_implications(inference_input: InferenceInput, f):
@@ -70,6 +71,7 @@ def input_fuzzy_implications(inference_input: InferenceInput, f):
             inference_input.add_implication(fuzzy_implication)
         except Exception as e:
             print(f'Произошла ошибка: {e.args}.')
+            exit(1)
 
 
 def print_implications(schemes: list[ImplicationScheme]):
