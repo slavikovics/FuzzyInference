@@ -45,11 +45,11 @@ def get_file(inference_input: InferenceInput):
 
 
 def input_fuzzy_sets(inference_input: InferenceInput, f):
-    while True:
+    fuzzy_set_str = f.readline().strip()
+    while not fuzzy_set_str:
         fuzzy_set_str = f.readline().strip()
 
-        if not fuzzy_set_str:
-            return
+    while True:
 
         try:
             fuzzy_set = parse_fuzzy_set(fuzzy_set_str)
@@ -58,20 +58,30 @@ def input_fuzzy_sets(inference_input: InferenceInput, f):
             print(f'Произошла ошибка: {e.args}.')
             exit(1)
 
+        fuzzy_set_str = f.readline().strip()
 
-def input_fuzzy_implications(inference_input: InferenceInput, f):
-    while True:
-        fuzzy_implication_str = f.readline().strip()
-
-        if not fuzzy_implication_str:
+        if not fuzzy_set_str:
             return
 
+
+def input_fuzzy_implications(inference_input: InferenceInput, f):
+    fuzzy_implication_str = f.readline().strip()
+
+    while not fuzzy_implication_str:
+        fuzzy_implication_str = f.readline().strip()
+
+    while True:
         try:
             fuzzy_implication = parse_fuzzy_implication(fuzzy_implication_str)
             inference_input.add_implication(fuzzy_implication)
         except Exception as e:
             print(f'Произошла ошибка: {e.args}.')
             exit(1)
+
+        fuzzy_implication_str = f.readline().strip()
+
+        if not fuzzy_implication_str:
+            return
 
 
 def print_implications(schemes: list[ImplicationScheme]):
