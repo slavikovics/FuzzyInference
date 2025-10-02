@@ -22,3 +22,4 @@ from fuzzy_inference_tests.test_weber_implication import TestWeberImplicationSol
 from fuzzy_inference_tests.test_min_tnorm import TestMinTNorm
 from fuzzy_inference_tests.test_drastic_product import TestDrasticProduct
 from fuzzy_inference_tests.test_fuzzy_set import TestFuzzySet
+from fuzzy_inference_tests.test_inference_engine import TestInferenceEngine
