@@ -17,7 +17,7 @@
 from fuzzy_implication import ImplicationScheme
 from parser import parse_fuzzy_set, parse_fuzzy_implication
 from inference_engine import InferenceInput, InferenceStep, InferencePipeline
-
+import sys
 import os
 
 
@@ -100,8 +100,12 @@ def main():
     get_file(inference_input)
     pipeline = InferencePipeline(inference_input)
     pipeline.inference()
-    print_implications(inference_input.implications)
-    print_inference(pipeline.inference_steps)
+
+
+    with open('output.txt', 'w', encoding='utf-8') as file:
+        sys.stdout = file
+        print_implications(inference_input.implications)
+        print_inference(pipeline.inference_steps)
 
 
 if __name__ == '__main__':
