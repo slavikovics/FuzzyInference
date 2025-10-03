@@ -37,6 +37,10 @@ class ImplicationScheme:
         result = str(self) + '\n'
 
         all_values = [el for row in self.solution for el in row]
+
+        if len(all_values) == 0:
+            return str(self)
+
         col_width = max(len(f"{v}") for v in all_values) + 1
 
         for row in self.solution:
