@@ -17,9 +17,11 @@
 from fuzzy_set import FuzzySet
 from fuzzy_conjunction import FuzzyConjunction
 import unittest
+from fuzzy_implication import ImplicationScheme
 
 
 class TestDrasticProduct(unittest.TestCase):
+
     def test_example_basic(self):
         A = FuzzySet('A', elements=['x1','x2'], degree_of_membership=[0.5,1.0])
         matrix = [
@@ -31,7 +33,12 @@ class TestDrasticProduct(unittest.TestCase):
             [0.0, 0.5],
             [0.2, 0.8]
         ]
-        result = FuzzyConjunction.drastic_product(A, matrix)
+
+        scheme = ImplicationScheme('A', 'B')
+        scheme.first_set = A
+        scheme.solution = matrix
+
+        result = FuzzyConjunction.drastic_product(A, scheme)
         self.assertEqual(result, expected)
         sup_result = [max(col) for col in zip(*result)]
         self.assertEqual(sup_result, [0.2, 0.8])
@@ -46,7 +53,12 @@ class TestDrasticProduct(unittest.TestCase):
             [0.4,0.6],
             [0.7,0.9]
         ]
-        result = FuzzyConjunction.drastic_product(A, matrix)
+
+        scheme = ImplicationScheme('A', 'B')
+        scheme.first_set = A
+        scheme.solution = matrix
+
+        result = FuzzyConjunction.drastic_product(A, scheme)
         self.assertEqual(result, expected)
         sup_result = [max(col) for col in zip(*result)]
         self.assertEqual(sup_result, [0.7,0.9])
@@ -61,7 +73,12 @@ class TestDrasticProduct(unittest.TestCase):
             [0.0,0.0],
             [0.0,0.0]
         ]
-        result = FuzzyConjunction.drastic_product(A, matrix)
+
+        scheme = ImplicationScheme('A', 'B')
+        scheme.first_set = A
+        scheme.solution = matrix
+
+        result = FuzzyConjunction.drastic_product(A, scheme)
         self.assertEqual(result, expected)
         sup_result = [max(col) for col in zip(*result)]
         self.assertEqual(sup_result, [0.0,0.0])
@@ -79,7 +96,12 @@ class TestDrasticProduct(unittest.TestCase):
             [0.2,1.0,0.5],
             [0.6,0.0,0.0]
         ]
-        result = FuzzyConjunction.drastic_product(A, matrix)
+
+        scheme = ImplicationScheme('A', 'B')
+        scheme.first_set = A
+        scheme.solution = matrix
+
+        result = FuzzyConjunction.drastic_product(A, scheme)
         self.assertEqual(result, expected)
         sup_result = [max(col) for col in zip(*result)]
         self.assertEqual(sup_result, [0.6,1.0,0.5])

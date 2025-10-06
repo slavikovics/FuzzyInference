@@ -66,7 +66,7 @@ class InferencePipeline:
         if implication_scheme.solution is None:
             return None
 
-        conjunction = self.tnorm(fuzzy_set, implication_scheme.solution)
+        conjunction = self.tnorm(fuzzy_set, implication_scheme)
         if not conjunction:
             return None
 
