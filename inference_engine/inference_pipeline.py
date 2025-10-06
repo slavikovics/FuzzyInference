@@ -47,6 +47,8 @@ class InferencePipeline:
 
             else:
                 implication.solution = self.implication_solver.solve(first, second)
+                implication.first_set = first
+                implication.second_set = second
 
     def find_compatible_sets(self, implication_scheme :ImplicationScheme):
         first_set = self.find_set_with_name(implication_scheme.first)

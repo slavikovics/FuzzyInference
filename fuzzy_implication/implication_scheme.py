@@ -14,11 +14,15 @@
 - Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
 """
 
+from fuzzy_set import FuzzySet
+
 class ImplicationScheme:
     def __init__(self, first, second):
         self._first = first
         self._second = second
         self.applied_sets = []
+        self.first_set: FuzzySet = None
+        self.second_set: FuzzySet = None
         self.solution = None
 
     def __str__(self):
@@ -36,16 +40,23 @@ class ImplicationScheme:
 
         result = str(self) + '\n'
 
-        all_values = [el for row in self.solution for el in row]
+        all_values = self.first_set.elements + self.second_set.elements + [el for row in self.solution for el in row]
 
         if len(all_values) == 0:
             return str(self)
 
         col_width = max(len(f"{v}") for v in all_values) + 1
 
-        for row in self.solution:
+        result += ' ' * col_width
+
+        for i in self.second_set.elements:
+            result += f'{i:{col_width}}'
+        result += '\n'
+
+        for row_name, row in zip(self.first_set.elements, self.solution):
+            result += f"{row_name:{col_width}}"
             for el in row:
-                result += f"{el:{col_width}}"
+                result += f"{str(el):{col_width}}"
             result += '\n'
 
         return result
