@@ -72,6 +72,13 @@ class FuzzySet:
     def is_like(self, other):
         return self._data.keys() == other._data.keys()
 
+    def get_set_order(self) -> dict[int, str]:
+        order = {}
+        for index in range(len(self.elements)):
+            order[index] = self.elements[index]
+
+        return order
+
     @property
     def name(self):
         return self._name

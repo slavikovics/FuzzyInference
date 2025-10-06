@@ -95,12 +95,100 @@ class TestFuzzySet(unittest.TestCase):
         self.assertIn("x1", s)
 
     def test_mutation_independence(self):
-        elems = ["x1", "x2"]
-        degs = [0.1, 0.9]
-        a = FuzzySet("A", elems, degs)
-        elems.append("x3")
-        degs.append(0.5)
-        # внутреннее состояние не должно было измениться (если реализация копирует данные)
+        elements = ["x1", "x2"]
+        degrees = [0.1, 0.9]
+        a = FuzzySet("A", elements, degrees)
+        elements.append("x3")
+        degrees.append(0.5)
+
         self.assertEqual(len(a), 2)
         self.assertIn("x1", a)
         self.assertNotIn("x3", a)
+
+    def test_set_order(self):
+        elements = ['x1', 'x2']
+        fuzzy_set = FuzzySet('A', elements, [1, 1])
+        order = fuzzy_set.get_set_order()
+
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_with_single_element(self):
+        elements = ['x1']
+        fuzzy_set = FuzzySet('A', elements, [0.5])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        self.assertEqual(elements[0], order[0])
+
+    def test_set_order_with_multiple_elements(self):
+        elements = ['x1', 'x2', 'x3', 'x4', 'x5']
+        fuzzy_set = FuzzySet('B', elements, [0.1, 0.5, 0.8, 0.3, 0.9])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_with_string_elements(self):
+        elements = ['low', 'medium', 'high']
+        fuzzy_set = FuzzySet('Temperature', elements, [0.2, 0.7, 0.9])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_with_numeric_elements(self):
+        elements = [1, 2, 3, 4, 5]
+        fuzzy_set = FuzzySet('NumericSet', elements, [0.1, 0.4, 0.6, 0.8, 1.0])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_with_mixed_elements(self):
+        elements = ['x1', 2, 'medium', 4.5]
+        fuzzy_set = FuzzySet('MixedSet', elements, [0.3, 0.6, 0.8, 0.1])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_empty_set(self):
+        elements = []
+        fuzzy_set = FuzzySet('EmptySet', elements, [])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        self.assertEqual({}, order)
+
+    def test_set_order_preserves_original_order(self):
+        elements = ['z', 'a', 'm', 'b']
+        fuzzy_set = FuzzySet('UnorderedSet', elements, [0.3, 0.6, 0.1, 0.9])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_with_special_characters(self):
+        elements = ['x₁', 'x₂', 'x₃', 'α', 'β']
+        fuzzy_set = FuzzySet('SpecialSet', elements, [0.2, 0.5, 0.8, 0.4, 0.7])
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
+
+    def test_set_order_large_set(self):
+        elements = [f'x{i}' for i in range(100)]
+        membership_values = [i / 100 for i in range(100)]
+        fuzzy_set = FuzzySet('LargeSet', elements, membership_values)
+        order = fuzzy_set.get_set_order()
+
+        self.assertEqual(len(elements), len(order))
+        for index in range(len(elements)):
+            self.assertEqual(elements[index], order[index])
