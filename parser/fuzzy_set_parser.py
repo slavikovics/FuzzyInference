@@ -63,6 +63,21 @@ class FuzzySetParser:
         return None
 
     def check_syntax(self):
+        """
+        Checks and validates the syntax of fuzzy set definition.
+
+        Parses the fuzzy set structure including:
+        - Set name and assignment operator
+        - Set elements with their membership degrees
+        - Validation of duplicate elements and degree ranges
+
+        Returns:
+            tuple: A tuple containing (fuzzy_set_name, elements_list, degrees_list)
+
+        Raises:
+            SyntaxError: If the syntax does not conform to expected fuzzy set notation
+            ValueError: If membership degrees are outside the valid [0, 1] range
+        """
         elements_of_set = []
         degree_of_membership_of_set = []
 
@@ -117,6 +132,24 @@ class FuzzySetParser:
 
 
 def parse_fuzzy_set(input_string):
+    """
+    Parses a fuzzy set definition string into a FuzzySet object.
+
+    This is the main entry point for parsing fuzzy set notation. It coordinates
+    the lexing and parsing process to transform a string representation into
+    a structured FuzzySet object.
+
+    Args:
+        input_string (str): The fuzzy set definition string to parse.
+                           Example: "A = {<a, 0.5>, <b, 0.8>}"
+
+    Returns:
+        FuzzySet: The parsed fuzzy set object.
+
+    Raises:
+        SyntaxError: If the input string contains syntax errors.
+        ValueError: If membership degrees are invalid.
+    """
     tokens = fuzzy_set_lex(input_string)
     parser = FuzzySetParser(tokens)
     ast = parser.parse()

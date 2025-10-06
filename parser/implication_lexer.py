@@ -21,6 +21,18 @@ import json
 
 
 def load_patterns():
+    """
+    Loads token patterns from a JSON configuration file.
+
+    Returns:
+        list: A list of tuples containing (pattern, tag) pairs, where:
+              - pattern (str): The regular expression pattern for matching the token
+              - tag (str): The classification tag for the token (e.g., 'NAME', 'NUM')
+
+    Raises:
+        FileNotFoundError: If the 'implication_token_patterns.json' file cannot be found.
+        JSONDecodeError: If the JSON file contains invalid syntax.
+    """
     file_path = os.path.join(os.path.dirname(__file__), 'implication_token_patterns.json')
     with open(file_path, 'r', encoding='utf-8') as patterns:
         data = json.load(patterns)

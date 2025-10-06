@@ -63,21 +63,54 @@ class ImplicationParser:
         return None
 
     def check_syntax(self):
+        """
+        Checks and validates the syntax of fuzzy implication definition.
+
+        Parses the implication structure in the format: FIRST_FUZZY_SET -> SECOND_FUZZY_SET
+        Validates the presence of both set names and the implication operator.
+
+        Returns:
+            tuple: A tuple containing (first_set_name, second_set_name)
+
+        Raises:
+            SyntaxError: If the syntax does not conform to expected implication notation
+                         or if required tokens are missing
+        """
+        # Parse the first fuzzy set name
         first = self.match('NAME')
         if first is None:
-            raise SyntaxError(f'Unexpected token')
+            raise SyntaxError('Expected NAME token for first fuzzy set')
 
+        # Parse the fuzzy implication operator
         if not self.match('FIMP'):
-            raise SyntaxError(f'Unexpected token')
+            raise SyntaxError('Expected FIMP token')
 
+        # Parse the second fuzzy set name
         second = self.match('NAME')
         if second is None:
-            raise SyntaxError(f'Unexpected token')
+            raise SyntaxError('Expected NAME token for second fuzzy set')
 
         return first, second
 
 
 def parse_fuzzy_implication(input_string):
+    """
+    Parses a fuzzy implication definition string into an ImplicationScheme object.
+
+    This is the main entry point for parsing fuzzy implication notation. It coordinates
+    the lexing and parsing process to transform a string representation into
+    a structured ImplicationScheme object.
+
+    Args:
+        input_string (str): The fuzzy implication definition string to parse.
+                           Example: "A -> B" or "Set1 → Set2"
+
+    Returns:
+        ImplicationScheme: The parsed implication scheme object.
+
+    Raises:
+        SyntaxError: If the input string contains syntax errors or missing components.
+    """
     tokens = implication_lex(input_string)
     parser = ImplicationParser(tokens)
     ast = parser.parse()
