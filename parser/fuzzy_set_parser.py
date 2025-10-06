@@ -78,9 +78,9 @@ class FuzzySetParser:
 
         while self.match('STUPLE'):
 
-            element = self.match('VAR')
+            element = self.match('NAME')
             if not element:
-                raise SyntaxError('Expected VAR token')
+                raise SyntaxError('Expected NAME token')
             if element in elements_of_set:
                 raise SyntaxError(f'Element "{element}" is multiplicity defined')
 

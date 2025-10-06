@@ -35,16 +35,13 @@ class FuzzySetParserTests(unittest.TestCase):
 
     def test_only_correct_names_allowed(self):
         set_str = 'Set = {}'
-        with self.assertRaises(SyntaxError):
-            parse_fuzzy_set(set_str)
+        self.assertEqual(parse_fuzzy_set(set_str).name, 'Set')
 
         set_str = 'set = {}'
-        with self.assertRaises(SyntaxError):
-            parse_fuzzy_set(set_str)
+        self.assertEqual(parse_fuzzy_set(set_str).name, 'set')
 
         set_str = 's = {}'
-        with self.assertRaises(SyntaxError):
-            parse_fuzzy_set(set_str)
+        self.assertEqual(parse_fuzzy_set(set_str).name, 's')
 
         set_str = '_ = {}'
         with self.assertRaises(SyntaxError):

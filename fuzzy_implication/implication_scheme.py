@@ -13,6 +13,7 @@
 Источники:
 - Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
 """
+from typing import Optional
 
 from fuzzy_set import FuzzySet
 
@@ -21,8 +22,8 @@ class ImplicationScheme:
         self._first = first
         self._second = second
         self.applied_sets = []
-        self.first_set: FuzzySet = None
-        self.second_set: FuzzySet = None
+        self.first_set: Optional[FuzzySet] = None
+        self.second_set: Optional[FuzzySet] = None
         self.solution = None
 
     def __str__(self):

@@ -87,9 +87,8 @@ def try_match_pattern(characters: str, pos: int, pattern: str, tag: Optional[str
     Returns:
         Tuple of (token, new_position) or None if pattern doesn't match
     """
-    if pattern == '[VAR]':
-        return match_var(characters, pos, tag)
-    elif pattern == '[NAME]':
+
+    if pattern == '[NAME]':
         return match_name(characters, pos, tag)
     elif pattern == '[NUM]':
         return match_num(characters, pos, tag)
@@ -99,7 +98,7 @@ def try_match_pattern(characters: str, pos: int, pattern: str, tag: Optional[str
         return match_literal(characters, pos, pattern, tag)
 
 
-def match_var(characters: str, pos: int, tag: Optional[str]) -> Optional[Tuple[Tuple[str, str], int]]:
+def match_name(characters: str, pos: int, tag: Optional[str]) -> Optional[Tuple[Tuple[str, str], int]]:
     """
     Match a variable pattern [a-zA-Z][a-zA-Z0-9]*
     """
@@ -115,16 +114,6 @@ def match_var(characters: str, pos: int, tag: Optional[str]) -> Optional[Tuple[T
 
     token_text = characters[start:pos]
     return (token_text, tag), pos
-
-
-def match_name(characters: str, pos: int, tag: Optional[str]) -> Optional[Tuple[Tuple[str, str], int]]:
-    """
-    Match a single uppercase letter name.
-    """
-    if characters[pos].isalpha() and characters[pos].isupper():
-        token_text = characters[pos]
-        return (token_text, tag), pos + 1
-    return None
 
 
 def match_num(characters: str, pos: int, tag: Optional[str]) -> Optional[Tuple[Tuple[str, str], int]]:
