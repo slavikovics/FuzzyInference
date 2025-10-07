@@ -38,9 +38,6 @@ class InferenceInput:
 
         return False
 
-    def check_ready_for_inference(self):
-        pass
-
     def add_set(self, new_set :FuzzySet):
         if self.__check_if_already_has_set(new_set.name):
             raise AttributeError(f'Set with the name "{new_set.name}" has already been added.')
