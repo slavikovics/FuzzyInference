@@ -1,86 +1,131 @@
 import unittest
-from interval.interval import Interval
+from decimal import Decimal
+from interval import Interval
+
 
 class TestInterval(unittest.TestCase):
-    def test_interval_initialization_within_bounds(self):
-        interval = Interval(0.2, 0.8)
-        self.assertAlmostEqual(interval.lower, 0.2)
-        self.assertAlmostEqual(interval.upper, 0.8)
 
-    def test_interval_initialization_out_of_bounds(self):
-        interval = Interval(-0.5, 1.5)
-        self.assertAlmostEqual(interval.lower, 0.0)
-        self.assertAlmostEqual(interval.upper, 1.0)
+    def test_creation(self):
+        interval1 = Interval(Decimal('0'), Decimal('1'))
+        self.assertEqual(interval1.lower, Decimal('0'))
+        self.assertEqual(interval1.upper, Decimal('1'))
+        self.assertTrue(interval1.lower_closed)
+        self.assertTrue(interval1.upper_closed)
+        self.assertFalse(interval1.is_empty())
 
-    def test_intersection_of_overlapping_intervals(self):
-        interval1 = Interval(0.2, 0.6)
-        interval2 = Interval(0.4, 0.8)
-        result = interval1 & interval2
-        self.assertEqual(result, Interval(0.4, 0.6))
+        interval2 = Interval(Decimal('0'), Decimal('1'), False, False)
+        self.assertFalse(interval2.lower_closed)
+        self.assertFalse(interval2.upper_closed)
 
-    def test_intersection_of_non_overlapping_intervals(self):
-        interval1 = Interval(0.1, 0.3)
-        interval2 = Interval(0.4, 0.6)
-        result = interval1 & interval2
-        self.assertTrue(result.is_empty())
+        interval3 = Interval(Decimal('0'), Decimal('1'), True, False)
+        self.assertTrue(interval3.lower_closed)
+        self.assertFalse(interval3.upper_closed)
 
-    def test_intersection_with_none(self):
-        interval = Interval(0.2, 0.5)
-        result = interval & None
-        self.assertEqual(result, interval)
+    def test_empty_interval(self):
+        empty = Interval.empty()
+        self.assertTrue(empty.is_empty())
+        self.assertEqual(empty, Interval.empty())
 
-    def test_contains_value_within_interval(self):
-        interval = Interval(0.3, 0.7)
-        self.assertTrue(interval.contains(0.5))
+    def test_contains(self):
+        closed = Interval(Decimal('0'), Decimal('1'))
+        self.assertTrue(closed.contains(Decimal('0')))
+        self.assertTrue(closed.contains(Decimal('0.5')))
+        self.assertTrue(closed.contains(Decimal('1')))
+        self.assertFalse(closed.contains(Decimal('-0.1')))
+        self.assertFalse(closed.contains(Decimal('1.1')))
 
-    def test_contains_value_outside_interval(self):
-        interval = Interval(0.3, 0.7)
-        self.assertFalse(interval.contains(0.8))
+        open_interval = Interval(Decimal('0'), Decimal('1'), False, False)
+        self.assertFalse(open_interval.contains(Decimal('0')))
+        self.assertTrue(open_interval.contains(Decimal('0.5')))
+        self.assertFalse(open_interval.contains(Decimal('1')))
 
-    def test_empty_interval_check(self):
-        interval = Interval(0.1, 0.3) & Interval(0.4, 0.6)
-        self.assertTrue(interval.is_empty())
+        half_open_low = Interval(Decimal('0'), Decimal('1'), False, True)
+        self.assertFalse(half_open_low.contains(Decimal('0')))
+        self.assertTrue(half_open_low.contains(Decimal('0.5')))
+        self.assertTrue(half_open_low.contains(Decimal('1')))
 
-    def test_equality_of_identical_intervals(self):
-        interval1 = Interval(0.2, 0.6)
-        interval2 = Interval(0.2, 0.6)
-        self.assertEqual(interval1, interval2)
+        half_open_high = Interval(Decimal('0'), Decimal('1'), True, False)
+        self.assertTrue(half_open_high.contains(Decimal('0')))
+        self.assertTrue(half_open_high.contains(Decimal('0.5')))
+        self.assertFalse(half_open_high.contains(Decimal('1')))
 
-    def test_equality_of_different_intervals(self):
-        interval1 = Interval(0.2, 0.6)
-        interval2 = Interval(0.3, 0.7)
-        self.assertNotEqual(interval1, interval2)
+        empty = Interval.empty()
+        self.assertFalse(empty.contains(Decimal('0')))
+        self.assertFalse(empty.contains(Decimal('0.5')))
 
-    def test_string_representation_of_interval(self):
-        interval = Interval(0.2, 0.6)
-        self.assertEqual(str(interval), "[0.20, 0.60]")
+    def test_intersection(self):
+        a = Interval(Decimal('0'), Decimal('2'))
+        b = Interval(Decimal('1'), Decimal('3'))
+        result = a & b
+        self.assertEqual(result, Interval(Decimal('1'), Decimal('2')))
 
-    def test_interval_crossing_1(self):
-        interval1 = Interval(0.0, 0.5)
-        interval2 = Interval(0.5, 1.0)
-        result = interval1 & interval2
-        self.assertEqual(result, Interval(0.5, 0.5))
+        c = Interval(Decimal('0.5'), Decimal('1.5'))
+        d = Interval(Decimal('0'), Decimal('2'))
+        result2 = c & d
+        self.assertEqual(result2, Interval(Decimal('0.5'), Decimal('1.5')))
 
-    def test_interval_crossing_2(self):
-        interval1 = Interval(0.0, 0.7)
-        interval2 = Interval(0.3, 1.0)
-        result = interval1 & interval2
-        self.assertEqual(result, Interval(0.3, 0.7))
+        e = Interval(Decimal('0'), Decimal('1'))
+        f = Interval(Decimal('1'), Decimal('2'))
+        result3 = e & f
+        self.assertEqual(result3, Interval(Decimal('1'), Decimal('1')))
 
-    def test_interval_crossing_3(self):
-        interval1 = Interval(0.4, 0.9)
-        interval2 = Interval(0.1, 0.5)
-        result = interval1 & interval2
-        self.assertEqual(result, Interval(0.4, 0.5))
+        g = Interval(Decimal('0'), Decimal('1'))
+        h = Interval(Decimal('2'), Decimal('3'))
+        result4 = g & h
+        self.assertTrue(result4.is_empty())
 
-    def test_interval_crossing_4(self):
-        interval1 = Interval(0.0, 0.2)
-        interval2 = Interval(0.3, 0.4)
-        result = interval1 & interval2
-        self.assertTrue(result.is_empty())
+    def test_intersection_with_open_close(self):
+        a = Interval(Decimal('0'), Decimal('2'), False, True)
+        b = Interval(Decimal('1'), Decimal('3'), True, True)
+        result = a & b
+        self.assertEqual(result, Interval(Decimal('1'), Decimal('2'), True, True))
 
-    def test_interval_crossing_5(self):
-        interval1 = Interval(0.6, 1.0)
-        interval2 = Interval(0.0, 0.5)
-        result = interval1 & interval2
-        self.assertTrue(result.is_empty())
+        c = Interval(Decimal('0'), Decimal('2'), False, False)
+        d = Interval(Decimal('1'), Decimal('3'), False, False)
+        result2 = c & d
+        self.assertEqual(result2, Interval(Decimal('1'), Decimal('2'), False, False))
+
+        e = Interval(Decimal('0'), Decimal('1'), True, False)
+        f = Interval(Decimal('1'), Decimal('2'), False, True)
+        result3 = e & f
+        self.assertTrue(result3.is_empty())
+
+    def test_edge_cases_intersection(self):
+        a = Interval(Decimal('0'), Decimal('1'))
+        result = a & a
+        self.assertEqual(result, a)
+
+        b = Interval(Decimal('0'), Decimal('1'), False, False)
+        result2 = b & b
+        self.assertEqual(result2, b)
+
+    def test_equality(self):
+        a = Interval(Decimal('0'), Decimal('1'))
+        b = Interval(Decimal('0'), Decimal('1'))
+        c = Interval(Decimal('0'), Decimal('1'), False, False)
+        d = Interval(Decimal('0'), Decimal('2'))
+
+        self.assertEqual(a, b)
+        self.assertNotEqual(a, c)
+        self.assertNotEqual(a, d)
+        self.assertEqual(Interval.empty(), Interval.empty())
+
+    def test_string_representation(self):
+        closed = Interval(Decimal('0'), Decimal('1'))
+        self.assertIn('[0.00, 1.00]', str(closed))
+
+        open_interval = Interval(Decimal('0'), Decimal('1'), False, False)
+        self.assertIn('(0.00, 1.00)', str(open_interval))
+
+        half_open = Interval(Decimal('0'), Decimal('1'), True, False)
+        self.assertIn('[0.00, 1.00)', str(half_open))
+
+        empty = Interval.empty()
+        self.assertEqual('∅', str(empty))
+
+    def test_single_point_interval(self):
+        point = Interval(Decimal('0.5'), Decimal('0.5'))
+        self.assertFalse(point.is_empty())
+        self.assertTrue(point.contains(Decimal('0.5')))
+        self.assertFalse(point.contains(Decimal('0.4')))
+        self.assertFalse(point.contains(Decimal('0.6')))

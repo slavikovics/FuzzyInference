@@ -2,7 +2,6 @@ from fuzzy_relation_solver import FuzzyRelationSolver
 from data_processor import DataProcessor
 
 def test_example():
-    """Тестирование на примере из описания"""
     print("ТЕСТИРОВАНИЕ НА ПРИМЕРЕ:")
 
     # Данные из примера
