@@ -20,7 +20,7 @@ class System:
         return any(sol.is_empty() for sol in solutions)
 
     def __str__(self):
-        return " && ".join(str(eq) for eq in self.equations)
+        return '(' + " && ".join(str(eq) for eq in self.equations) + ')'
 
     def __repr__(self):
         return f"System({self.equations})"

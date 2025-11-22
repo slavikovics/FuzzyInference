@@ -17,4 +17,4 @@ class Disjunction:
         return all_solutions
 
     def __str__(self):
-        return " ||\n ".join(str(system) for system in self.systems)
+        return '(' + " ||\n ".join(str(system) for system in self.systems) + ')'
