@@ -102,7 +102,7 @@ def main():
     pipeline.inference()
 
 
-    with open('output.txt', 'w', encoding='utf-8') as file:
+    with open('output', 'w', encoding='utf-8') as file:
         sys.stdout = file
         print_implications(inference_input.implications)
         print_inference(pipeline.inference_steps)

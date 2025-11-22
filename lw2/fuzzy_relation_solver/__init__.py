@@ -1,0 +1,1 @@
+from fuzzy_relation_solver.fuzzy_relation_solver import FuzzyRelationSolver
