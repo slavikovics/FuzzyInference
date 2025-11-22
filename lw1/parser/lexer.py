@@ -85,8 +85,7 @@ def try_match_token(characters: str, pos: int, token_patterns: List[Tuple[str, O
 
         result = try_match_pattern(characters, pos, pat, tag)
         if result is not None:
-            token, new_pos = result
-            return token, new_pos
+            return result
 
     return None, pos
 

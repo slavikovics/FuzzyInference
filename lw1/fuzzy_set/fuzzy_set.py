@@ -30,10 +30,10 @@ class FuzzySet:
         for key, value in self._data.items():
             cortege = f'<{key}, {value}>'
             if result != '':
-                result = result + ', ' + cortege
+                result += ', ' + cortege
 
             else:
-                result = result + cortege
+                result += cortege
 
         return self.name + ' = {' + result + '}'
 

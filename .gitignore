@@ -208,4 +208,5 @@ __marimo__/
 
 
 /.idea
-output.txt
+output
+input
