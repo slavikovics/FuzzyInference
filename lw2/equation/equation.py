@@ -20,19 +20,19 @@ class Equation:
     def _solve_equal_drastic(self) -> Interval:
         """Решает уравнение x /\ a = b для t-нормы"""
         if self.b == 0:
-            return Interval(2 - self.b, 1)
-        elif self.b == 1:
             return Interval(0, 1 - self.a)
+        elif self.b == 1:
+            return Interval(2 - self.a, 1) if 2 - self.a <= 1 else Interval(1, 0)
         else:
-            return Interval(self.b - self.a + 1, self.b - self.a + 1)
+            return Interval(self.b - self.a + 1, self.b - self.a + 1) if 0 <= self.b - self.a + 1 <=1 else Interval(1, 0)
 
     def _solve_less_equal_drastic(self) -> Interval:
         if self.b == 0:
-            return Interval(0, self.b - self.a + 1)
-        elif self.b == 1:
             return Interval(0, 1 - self.a)
-        else:
+        elif self.b == 1:
             return Interval(0, 1)
+        else:
+            return Interval(0, self.b - self.a + 1)
 
     def __str__(self):
         return f"x{self.variable_index + 1} /\\ {self.a:.2f} {self.eq_type.value} {self.b:.2f}"
