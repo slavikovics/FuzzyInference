@@ -1,2 +1,2 @@
 # FuzzyInference
-LOIS lab work 3
+LOIS lab work
