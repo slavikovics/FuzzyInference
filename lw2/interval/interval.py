@@ -5,16 +5,18 @@ from typing import Optional
 class Interval:
 
     def __init__(self, lower: Optional[Decimal], upper: Optional[Decimal], lower_closed: bool = True,
-                 upper_closed: bool = True, variable=None):
+                 upper_closed: bool = True):
         self._lower = lower
         self._upper = upper
-        self.variable = variable
         self._lower_closed = lower_closed
         self._upper_closed = upper_closed
 
     def __and__(self, other: 'Interval') -> 'Interval':
         if not isinstance(other, Interval):
             return NotImplemented
+
+        if self.lower is None or other.lower is None:
+            return self.empty()
 
         new_lower = max(self._lower, other._lower)
         if self._lower == other._lower:
@@ -65,6 +67,10 @@ class Interval:
     def __str__(self):
         if self.is_empty():
             return "∅"
+
+        if (self._lower == self._upper and
+                self._lower_closed and self._upper_closed):
+            return f"{{{self._lower:.1f}}}"
 
         left_bracket = '[' if self._lower_closed else '('
         right_bracket = ']' if self._upper_closed else ')'

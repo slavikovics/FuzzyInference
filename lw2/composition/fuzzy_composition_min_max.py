@@ -2,7 +2,7 @@ from decimal import Decimal
 from interval import Interval
 
 
-class FuzzyComposition:
+class FuzzyCompositionMinMax:
 
     @staticmethod
     def solve(x: Decimal, y: Decimal) -> Decimal:
