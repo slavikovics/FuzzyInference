@@ -6,7 +6,7 @@ from composition.fuzzy_composition_max_min import FuzzyCompositionMaxMin
 
 
 def example_usage():
-    transposed_matrix = {
+    matrix = {
         'y1': {'x1': Decimal('0.7'), 'x2': Decimal('0.7')},
         'y2': {'x1': Decimal('0.1'), 'x2': Decimal('0.3')},
         'y3': {'x1': Decimal('0.2'), 'x2': Decimal('0.1')}
@@ -18,7 +18,7 @@ def example_usage():
         'y3': Decimal('0.2')
     }
 
-    system = System(FuzzyCompositionMaxMin, transposed_matrix, t_values)
+    system = System(FuzzyCompositionMinMax, matrix, t_values)
     solutions = system.solve()
 
     for i, solution in enumerate(solutions):

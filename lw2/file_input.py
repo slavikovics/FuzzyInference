@@ -3,7 +3,7 @@ from typing import List, Dict, Optional
 from system import System
 from interval import Interval
 from composition import DrasticProduct
-from composition import FuzzyCompositionMaxMin
+from composition import FuzzyCompositionMinMax
 
 
 def read_input(filename: str) -> tuple:
@@ -98,7 +98,7 @@ def write_output(filename: str, output_str: str):
 def main():
     try:
         premise, y_ids, t_values, x_ids, matrix = read_input('input.txt')
-        tnorm = DrasticProduct()
+        tnorm = FuzzyCompositionMinMax()
         system = System(tnorm, matrix, t_values)
         solutions = system.solve()
         output_str = format_output(premise, solutions, x_ids)
