@@ -4,21 +4,19 @@ from system.system_of_equations_and_inequations import SystemOfEquationsAndInequ
 
 
 class Aggregate:
-    """Совокупность систем для одного столбца y"""
 
-    def __init__(self, y_id: str, t: Decimal, tnorm, matrix_row: Dict[str, Decimal]):
-        self.y_id = y_id  # Идентификатор столбца (например, 'y1')
-        self.t = t  # Целевое значение для этого столбца
+    def __init__(self, y_id: str, t: Decimal, tnorm, matrix_column: Dict[str, Decimal]):
+        self.y_id = y_id
+        self.t = t
         self.tnorm = tnorm
-        self.matrix_row = matrix_row  # Значения {x: y} для этого столбца
+        self.matrix_column = matrix_column
         self.systems = self._create_systems()
 
     def _create_systems(self) -> List[SystemOfEquationsAndInequations]:
-        """Создает все возможные системы для данного столбца y"""
         systems = []
-        for variable in self.matrix_row.keys():
+        for variable in self.matrix_column.keys():
             system = SystemOfEquationsAndInequations(
-                variable, self.t, self.tnorm, self.matrix_row
+                variable, self.t, self.tnorm, self.matrix_column
             )
             systems.append(system)
         return systems

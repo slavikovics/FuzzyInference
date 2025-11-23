@@ -74,7 +74,7 @@ class Interval:
 
         left_bracket = '[' if self._lower_closed else '('
         right_bracket = ']' if self._upper_closed else ')'
-        return f"{left_bracket}{self._lower:.2f}, {self._upper:.2f}{right_bracket}"
+        return f"{left_bracket}{self._lower}; {self._upper}{right_bracket}"
 
     def __repr__(self):
         if self.is_empty():
@@ -83,10 +83,7 @@ class Interval:
 
     @classmethod
     def empty(cls) -> 'Interval':
-        empty_interval = cls(Decimal('0'), Decimal('0'))
-        empty_interval._lower = None
-        empty_interval._upper = None
-        return empty_interval
+        return cls(None, None)
 
     @property
     def lower(self) -> Decimal:

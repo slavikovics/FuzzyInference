@@ -3,33 +3,26 @@ from typing import List, Dict, Optional
 from system.system_of_equations_and_inequations import SystemOfEquationsAndInequations
 from system.aggregate import Aggregate
 from interval import Interval
+from itertools import product
 
 
 class System:
 
-    def __init__(self, tnorm, matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
+    def __init__(self, tnorm, transposed_matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
         self.tnorm = tnorm
-        self.matrix = matrix
+        self.transposed_matrix = transposed_matrix
         self.t_values = t_values
-        self.variables = list(matrix.keys())
+        self.y_ids = list(t_values.keys())
+        self.variables = list(transposed_matrix[self.y_ids[0]].keys()) if self.y_ids else []
         self.aggregates = self._create_aggregates()
 
     def _create_aggregates(self) -> Dict[str, Aggregate]:
         aggregates = {}
-
-        transposed_matrix = {}
-        for x, y_values in self.matrix.items():
-            for y_id, y_value in y_values.items():
-                if y_id not in transposed_matrix:
-                    transposed_matrix[y_id] = {}
-                transposed_matrix[y_id][x] = y_value
-
         for y_id, t in self.t_values.items():
-            if y_id in transposed_matrix:
+            if y_id in self.transposed_matrix:
                 aggregates[y_id] = Aggregate(
-                    y_id, t, self.tnorm, transposed_matrix[y_id]
+                    y_id, t, self.tnorm, self.transposed_matrix[y_id]
                 )
-
         return aggregates
 
     def solve(self) -> List[Dict[str, Interval]]:
@@ -44,11 +37,9 @@ class System:
             if solution is not None:
                 solutions.append(solution)
 
-        return solutions
+        return System._remove_duplicate_solutions(solutions)
 
     def _get_system_combinations(self) -> List[Dict[str, SystemOfEquationsAndInequations]]:
-        from itertools import product
-
         y_systems = {}
         for y_id, aggregate in self.aggregates.items():
             y_systems[y_id] = list(aggregate)
@@ -74,3 +65,20 @@ class System:
                         return None
 
         return solution
+
+    @staticmethod
+    def _remove_duplicate_solutions(solutions: List[Dict[str, Interval]]) -> List[Dict[str, Interval]]:
+        unique_solutions = []
+        for solution in solutions:
+            if not any(System._are_solutions_equal(solution, existing) for existing in unique_solutions):
+                unique_solutions.append(solution)
+        return unique_solutions
+
+    @staticmethod
+    def _are_solutions_equal(sol1: Dict[str, Interval], sol2: Dict[str, Interval]) -> bool:
+        if set(sol1.keys()) != set(sol2.keys()):
+            return False
+        for var in sol1:
+            if sol1[var] != sol2[var]:
+                return False
+        return True

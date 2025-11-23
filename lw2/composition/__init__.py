@@ -1,0 +1,3 @@
+from composition.drastic_product import DrasticProduct
+from composition.fuzzy_composition_max_min import FuzzyCompositionMaxMin
+from composition.fuzzy_composition_min_max import FuzzyCompositionMinMax
