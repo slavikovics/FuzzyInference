@@ -112,13 +112,13 @@ class TestInterval(unittest.TestCase):
 
     def test_string_representation(self):
         closed = Interval(Decimal('0'), Decimal('1'))
-        self.assertIn('[0, 1]', str(closed))
+        self.assertIn('[0; 1]', str(closed))
 
         open_interval = Interval(Decimal('0.1'), Decimal('0.0001'), False, False)
-        self.assertIn('(0.1, 0.0001)', str(open_interval))
+        self.assertIn('(0.1; 0.0001)', str(open_interval))
 
         half_open = Interval(Decimal('0.9999999999999999999999999999'), Decimal('1'), True, False)
-        self.assertIn('[0.9999999999999999999999999999, 1)', str(half_open))
+        self.assertIn('[0.9999999999999999999999999999; 1)', str(half_open))
 
         empty = Interval.empty()
         self.assertEqual('∅', str(empty))
