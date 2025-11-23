@@ -1,23 +1,32 @@
-from fuzzy_relation_solver import FuzzyRelationSolver
-from data_processor import DataProcessor
+from system.system import System
+from decimal import Decimal
+from composition.drastic_product import DrasticProduct
+from composition.fuzzy_composition_min_max import FuzzyCompositionMinMax
+from composition.fuzzy_composition_max_min import FuzzyCompositionMaxMin
 
-def test_example():
-    print("ТЕСТИРОВАНИЕ НА ПРИМЕРЕ:")
 
-    # Данные из примера
-    relation_matrix = [
-        [0.5, 1.0],
-        [1.0, 1.0]
-    ]
-    output_vector = [0.5, 1.0]
+def example_usage():
+    matrix = {
+        'x1': {'y1': Decimal('0.7'), 'y2': Decimal('0.1'), 'y3': Decimal('0.2')},
+        'x2': {'y1': Decimal('0.7'), 'y2': Decimal('0.3'), 'y3': Decimal('0.1')}
+    }
 
-    print(f"Матрица отношений: {relation_matrix}")
-    print(f"Выходной вектор: {output_vector}")
+    t_values = {
+        'y1': Decimal('0.7'),
+        'y2': Decimal('0.3'),
+        'y3': Decimal('0.2')
+    }
 
-    solver = FuzzyRelationSolver(relation_matrix, output_vector)
-    solutions = solver.solve_drastic()
+    system = System(FuzzyCompositionMaxMin, matrix, t_values)
 
-    DataProcessor.display_solutions(solutions, relation_matrix, output_vector)
+    solutions = system.solve()
+
+    for i, solution in enumerate(solutions):
+        print(f"Решение {i + 1}:")
+        for var, interval in solution.items():
+            print(f"  {var}: {interval}")
+        print()
+
 
 if __name__ == "__main__":
-    test_example()
+    example_usage()
