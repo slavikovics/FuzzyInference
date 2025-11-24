@@ -1,9 +1,25 @@
+"""
+Лабораторная работа 2 по дисциплине ЛОИС
+
+Выполнили студенты группы 321701:
+- Мотолянец Кирилл Андреевич
+- Пушко Максим Александрович
+- Самович Вячеслав Максимович
+Вариант 4
+
+Моудуль для ввода данных из файла и вывода решения в файл
+23.10.2025
+
+Источники:
+- Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
+"""
 from decimal import Decimal
 from typing import List, Dict, Optional
 from system import System
 from interval import Interval
 from composition import DrasticProduct
-from composition import FuzzyCompositionMinMax
+from composition import FuzzyCompositionLukasiewicz
+from composition import FuzzyCompositionMaxMin
 
 
 def read_input(filename: str) -> tuple:
@@ -98,7 +114,7 @@ def write_output(filename: str, output_str: str):
 def main():
     try:
         premise, y_ids, t_values, x_ids, matrix = read_input('input.txt')
-        tnorm = FuzzyCompositionMinMax()
+        tnorm = FuzzyCompositionLukasiewicz()
         system = System(tnorm, matrix, t_values)
         solutions = system.solve()
         output_str = format_output(premise, solutions, x_ids)

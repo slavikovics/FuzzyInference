@@ -1,3 +1,18 @@
+"""
+Лабораторная работа 2 по дисциплине ЛОИС
+
+Выполнили студенты группы 321701:
+- Мотолянец Кирилл Андреевич
+- Пушко Максим Александрович
+- Самович Вячеслав Максимович
+Вариант 4
+
+Модуль для системы совокупностей
+23.10.2025
+
+Источники:
+- Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
+"""
 from decimal import Decimal
 from typing import List, Dict, Optional
 from system.system_of_equations_and_inequations import SystemOfEquationsAndInequations
@@ -8,20 +23,20 @@ from itertools import product
 
 class System:
 
-    def __init__(self, tnorm, transposed_matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
+    def __init__(self, tnorm, matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
         self.tnorm = tnorm
-        self.transposed_matrix = transposed_matrix
+        self.matrix = matrix
         self.t_values = t_values
         self.y_ids = list(t_values.keys())
-        self.variables = list(transposed_matrix[self.y_ids[0]].keys()) if self.y_ids else []
+        self.variables = list(matrix[self.y_ids[0]].keys()) if self.y_ids else []
         self.aggregates = self._create_aggregates()
 
     def _create_aggregates(self) -> Dict[str, Aggregate]:
         aggregates = {}
         for y_id, t in self.t_values.items():
-            if y_id in self.transposed_matrix:
+            if y_id in self.matrix:
                 aggregates[y_id] = Aggregate(
-                    y_id, t, self.tnorm, self.transposed_matrix[y_id]
+                    y_id, t, self.tnorm, self.matrix[y_id]
                 )
         return aggregates
 

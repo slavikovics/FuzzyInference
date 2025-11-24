@@ -1,8 +1,23 @@
+"""
+Лабораторная работа 2 по дисциплине ЛОИС
+
+Выполнили студенты группы 321701:
+- Мотолянец Кирилл Андреевич
+- Пушко Максим Александрович
+- Самович Вячеслав Максимович
+Вариант 4
+
+Модуль для нечёткой композиции (min({1}U{max({0}U{xi+yi-1})|i}))
+23.10.2025
+
+Источники:
+- Логические основы интеллектуальных систем. Практикум : учебно - метод. пособие / В. В. Голенков [и др.]. – Минск : БГУИР, 2011. – 70 с. : ил.
+"""
 from decimal import Decimal
 from interval import Interval
 
 
-class FuzzyCompositionMinMax:
+class FuzzyCompositionLukasiewicz:
 
     @staticmethod
     def solve(x: Decimal, y: Decimal) -> Decimal:
