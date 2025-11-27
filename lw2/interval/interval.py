@@ -85,7 +85,7 @@ class Interval:
 
         if (self._lower == self._upper and
                 self._lower_closed and self._upper_closed):
-            return f"{{{self._lower:.1f}}}"
+            return f"{{{self._lower}}}"
 
         left_bracket = '[' if self._lower_closed else '('
         right_bracket = ']' if self._upper_closed else ')'

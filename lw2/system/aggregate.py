@@ -23,7 +23,7 @@ class Aggregate:
     def __init__(self, y_id: str, t: Decimal, composition, matrix_column: Dict[str, Decimal]):
         self.y_id = y_id
         self.t = t
-        self.tnorm = composition
+        self.composition = composition
         self.matrix_column = matrix_column
         self.systems = self._create_systems()
 
@@ -31,7 +31,7 @@ class Aggregate:
         systems = []
         for variable in self.matrix_column.keys():
             system = SystemOfEquationsAndInequations(
-                variable, self.t, self.tnorm, self.matrix_column
+                variable, self.t, self.composition, self.matrix_column
             )
             systems.append(system)
         return systems
