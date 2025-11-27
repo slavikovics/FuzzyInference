@@ -23,8 +23,8 @@ from itertools import product
 
 class System:
 
-    def __init__(self, tnorm, matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
-        self.tnorm = tnorm
+    def __init__(self, composition, matrix: Dict[str, Dict[str, Decimal]], t_values: Dict[str, Decimal]):
+        self.composition = composition
         self.matrix = matrix
         self.t_values = t_values
         self.y_ids = list(t_values.keys())
@@ -36,7 +36,7 @@ class System:
         for y_id, t in self.t_values.items():
             if y_id in self.matrix:
                 aggregates[y_id] = Aggregate(
-                    y_id, t, self.tnorm, self.matrix[y_id]
+                    y_id, t, self.composition, self.matrix[y_id]
                 )
         return aggregates
 
