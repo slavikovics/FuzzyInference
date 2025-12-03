@@ -63,14 +63,9 @@ def parse_t_values(line: str, y_ids: List[str]) -> Tuple[bool, Union[Dict[str, D
 
     t_values = {}
     for i, (y_id, t_str) in enumerate(zip(y_ids, values_str)):
-        is_valid_decimal = True
-        value = Decimal(0)
         try:
             value = Decimal(t_str)
         except:
-            is_valid_decimal = False
-
-        if not is_valid_decimal:
             return False, f"Ошибка преобразования значения t: {t_str}"
 
         if value < Decimal('0') or value > Decimal('1'):
@@ -100,14 +95,9 @@ def parse_matrix(lines: List[str], y_ids: List[str], x_ids: List[str]) -> Tuple[
 
         row_values = {}
         for j, x_id in enumerate(x_ids):
-            is_valid_decimal = True
-            value = Decimal(0)
             try:
                 value = Decimal(values_str[j])
             except:
-                is_valid_decimal = False
-
-            if not is_valid_decimal:
                 return False, f"Ошибка преобразования значения матрицы: {values_str[j]}"
 
             if value < Decimal('0') or value > Decimal('1'):
